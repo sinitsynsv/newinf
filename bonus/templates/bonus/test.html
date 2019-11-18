@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="usersApp">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="https:maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https:ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+        <!-- <script src="./script.js"></script> -->
+    <body ng-controller="userCtrl">
+        <div class="panel">
+            <div class="form-group">
+                <input class="input-sm" type="text" [value]="name" placeholder="id">
+                <button class="btn" ng-click="search()">Check</button>
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Username</th>
+                    <th>Date joined</th>
+                </tr>
+                <tr ng-repeat="user in fields">
+                    <td ng-model="first_name">{{ user.first_name }}</td>
+                    <td ng-model="last_name">{{ user.last_name }}</td>
+                    <td ng-model="username">{{ user.username }}</td>
+                    <td ng-model="date_joined">{{ user.date_joined }}</td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            var usersApp = angular.module('usersApp', []);
+            usersApp.controller('userCtrl', function($scope, $http, $q){
+                $http.get('http://192.168.50.50:8000/api/personal/').success(function(data){
+                    console.log(data);
+                    $scope.users = data;
+                 });
+                 $http({
+                     method: 'get',
+                     url: '/search/' //юрл на файл с бэком, в котором есть запрос к бд
+                 }).then(function successCallback(response){
+                     window.alert(response);
+                 });
+                 $scope.search = function(){
+                     console.log('Get req');
+                     $scope.url = 'http://192.168.50.50:8000/api/personal/';
+                     var delayed = $q.defer();
+                     $http.get($scope.url).success(function(data, status){
+                         console.log(data, status);
+                         delayed.resolve(data);
+                     }).error(function(data, status) {
+                         delayed.reject('An unexpected error has occurred')
+                     });
+                     return delayed.promise;
+                 };
+             });
+        </script>
+    </body>
+</html>

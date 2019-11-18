@@ -1,0 +1,13 @@
+{% extends 'onlinepayment/requesting.html' %}
+
+{% block content %}
+<p>У {{user.username}} <b>{{bval}}</b> бонусов</p>
+<div style="height:400px;width:auto;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+    {% for transaction in transactions %}
+        <div>
+            <p style="display: inline-block; font-weight: bold">{{transaction.value}}</p>
+            <p style="display: inline-block">{{transaction.date_created}}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

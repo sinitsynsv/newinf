@@ -1,0 +1,13 @@
+{
+    "model": "bonus.bonustransaction", 
+    "pk": 111492, 
+    "fields": {
+        "user": 3633, 
+        "account_payment": 681,
+        "value": "-10.00", 
+        "note": "TEST", 
+        "date_created": 
+        "2019-11-17T00:00:00Z", 
+        "date_updated": "2019-11-17T00:00:00Z"
+    }
+}
