@@ -10,21 +10,9 @@ from django.db.models import Avg, Count, Sum, FloatField
 
 # Возвращает все транзакции пользователя сессии | JSON
 def ReturnAllUserTransactions(request):
+    print(request.user)
     if request.user.is_authenticated:
         transactions = BonusTransaction.objects.filter(user=request.user.id).order_by('-date_created') # получение всех транзакций пользователя
-
-        # transacts = []
-        # for index, bonus in enumerate(BonusTransaction.objects.filter(user=request.user.id).order_by('-date_created')):
-        #     transacts.append(bonus)
-
-        #     for account_service in AccountPaymentService.objects.all():
-        #         try:
-        #             if account_service.id == bonus.account_payment.id:
-        #                 transacts.append(account_service.supplier_name)
-        #                 transacts.append(account_service.service_name)
-        #         except Exception:
-        #             pass
-
         return JsonResponse(serializers.serialize('json', transactions), safe=False)
     else:
         return HttpResponseBadRequest()
@@ -39,7 +27,6 @@ def ReturnUserTransactionSum(request):
 
 def testrequest(request):
     return render(request, 'bonus/requestin.html')
-
 
 
 
