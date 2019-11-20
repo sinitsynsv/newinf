@@ -6,7 +6,8 @@ urlpatterns = [
     path('', views.testrequest),
     path('GetAllTransactions/', views.ReturnAllUserTransactions),
     path('GetTransactionsSum/', views.ReturnUserTransactionSum),
-    
+    path('GetT/', views.rest),
+
     path('api-token-auth/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
 ]

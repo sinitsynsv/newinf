@@ -7,10 +7,14 @@ from django.contrib.auth import models
 import json
 from django.core import serializers
 from django.db.models import Avg, Count, Sum, FloatField
+from rest_framework import authentication, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import *
+from rest_framework.parsers import JSONParser
 
 # Возвращает все транзакции пользователя сессии | JSON
 def ReturnAllUserTransactions(request):
-    print(request.user)
     if request.user.is_authenticated:
         transactions = BonusTransaction.objects.filter(user=request.user.id).order_by('-date_created') # получение всех транзакций пользователя
         return JsonResponse(serializers.serialize('json', transactions), safe=False)
@@ -28,7 +32,11 @@ def ReturnUserTransactionSum(request):
 def testrequest(request):
     return render(request, 'bonus/requestin.html')
 
-
+def rest(request):
+    if request.method == 'GET':
+        transactions = BonusTransaction.objects.all()
+        serializer = BonusTransactionSerializer(transactions, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 # def requesting_view(request):
@@ -50,4 +58,3 @@ def testrequest(request):
 #         return HttpResponse(json.dumps(transactions_json), content_type="application/json")
 #     else:
 #         return HttpResponseBadRequest()
-

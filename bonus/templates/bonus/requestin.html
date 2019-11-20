@@ -8,10 +8,11 @@
             <input type="text" name="user_id" id="user_id">
             <button type="button" id="but"></button>
             <button type="button" id="gt"></button>
+            <button type="button" id="tst">SimpleTest</button>
         {% block content %}
             {% endblock %}
             <script>
-                var token = "";
+                var token = ""; 
                 $("#but").click(function(e) {
                     e.preventDefault();
                     $.when($.ajax({
@@ -42,6 +43,20 @@
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader ("Authorization: JWT " + token);
                         },
+                        type: 'GET',
+                        success: function (data) {
+                            alert(data);
+                        },
+                        error: function(){
+                            alert("Cannot get data");
+                        }
+                    });
+                });
+
+                $("#tst").click(function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: "GetT/",
                         type: 'GET',
                         success: function (data) {
                             alert(data);
