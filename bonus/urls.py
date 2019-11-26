@@ -10,4 +10,7 @@ urlpatterns = [
 
     path('api-token-auth/', obtain_jwt_token),
     path('api-token-refresh/', refresh_jwt_token),
+    path('user-bonus-transactions/',
+         views.UserBonusTransactionList.as_view(),
+         name='bonus-api-user_bonus_transaction-list'),
 ]

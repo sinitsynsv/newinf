@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework.parsers import JSONParser
+from rest_framework.generics import ListAPIView
 
 # Возвращает все транзакции пользователя сессии | JSON
 def ReturnAllUserTransactions(request):
@@ -58,3 +59,10 @@ def rest(request):
 #         return HttpResponse(json.dumps(transactions_json), content_type="application/json")
 #     else:
 #         return HttpResponseBadRequest()
+
+
+class UserBonusTransactionList(ListAPIView):
+    serializer_class = BonusTransactionSerializer
+
+    def get_queryset(self):
+        return BonusTransaction.objects.filter(user=self.request.user)
